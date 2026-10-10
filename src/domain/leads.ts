@@ -51,3 +51,23 @@ export async function previousCalls(leadId: string, excludeCallId: string): Prom
   const calls = await getDb().find("calls", { lead_id: leadId }, { order: ["started_at", "asc"] });
   return calls.filter((c) => c.id !== excludeCallId);
 }
+
+/**
+ * Vaani masks caller numbers in webhooks, so a lead may have no phone. When the agent collected the number on the call
+ * (fields.caller_phone), attach it to the lead; if another lead already owns that number, the call joins that lead
+ * (repeat caller). Returns the lead id the call now belongs to.
+ */
+export async function attachCollectedPhone(call: Row, collected: string | null): Promise<string | null> {
+  const phone = normalizePhone(collected);
+  if (!phone || !call.lead_id) return call.lead_id ?? null;
+  const db = getDb();
+  const lead = await db.get("leads", call.lead_id);
+  if (!lead || lead.phone_e164 === phone) return call.lead_id;
+  const [owner] = await db.find("leads", { phone_e164: phone });
+  if (owner && owner.id !== lead.id) {
+    await db.update("calls", call.id, { lead_id: owner.id, updated_at: nowIso() });
+    return owner.id;
+  }
+  if (!lead.phone_e164) await db.update("leads", lead.id, { phone_e164: phone, updated_at: nowIso() });
+  return lead.id;
+}

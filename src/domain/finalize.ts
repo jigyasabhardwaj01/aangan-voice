@@ -4,7 +4,7 @@ import { env } from "@/lib/env";
 import { audit } from "./audit";
 import { latestBookingForLead } from "./booking";
 import { recordCallCosts } from "./costs";
-import { previousCalls } from "./leads";
+import { attachCollectedPhone, previousCalls } from "./leads";
 import { enqueue, runDueJobs } from "./jobs";
 import { containsPrice } from "./pricing-guard";
 import { applyEvaluation, latestLiveFields, mergeFields, saveQualification } from "./qualification/service";
@@ -53,7 +53,7 @@ export async function finalizeCall(callId: string, ev?: NormalizedEvent): Promis
   const incomplete = call.status !== "completed" || callerTurns < 2;
 
   // Facts: Gemini (lowest priority) < payload/prior merged < live tool call (highest).
-  const { history, note: historyNote } = await historyOf(call);
+  let { history, note: historyNote } = await historyOf(call);
   let geminiFields: Partial<Fields> | null = null;
   let narrative: Narrative | null = null;
   let source: "gemini" | "deterministic_fallback" = call.summary_source === "gemini" ? "gemini" : "deterministic_fallback";
@@ -74,6 +74,11 @@ export async function finalizeCall(callId: string, ev?: NormalizedEvent): Promis
 
   const fields = mergeFields(geminiFields, asFields(call.extracted), await latestLiveFields(callId));
   fields.caller_phone = fields.caller_phone ?? call.from_number;
+  const leadId = await attachCollectedPhone(call, fields.caller_phone);
+  if (leadId && leadId !== call.lead_id) {
+    call = (await db.get("calls", callId))!; // the call joined an existing lead: earlier calls now count as history
+    ({ history, note: historyNote } = await historyOf(call));
+  }
   const evaluation = evaluate(fields, { callIncomplete: incomplete });
   await saveQualification({ call, source: "merged", fields, evaluation });
   const { effective } = await applyEvaluation(callId, fields, evaluation);

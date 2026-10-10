@@ -180,3 +180,42 @@ describe("one-designer mode", () => {
     delete process.env.ASSIGN_ALL_TO_DESIGNER;
   });
 });
+
+describe("phone collected on the call fixes masked caller numbers", () => {
+  useCleanEnv();
+  const masked = (id: string, phone: string | null) =>
+    vaaniEvent({ call_id: id, event_id: id, from: "+91******1234", extracted: { ...vaaniEvent().extracted, caller_phone: phone } });
+
+  it("attaches the collected number to the lead", async () => {
+    await send(masked("c1", "98765 43210"));
+    const [lead] = await db().find("leads");
+    expect(lead.phone_e164).toBe("+919876543210");
+  });
+  it("a second masked call with the same collected number joins the same lead (history kept)", async () => {
+    await send(masked("c1", "9876543210"));
+    await send(masked("c2", "+91 98765 43210"));
+    const withPhone = (await db().find("leads")).filter((l) => l.phone_e164 === "+919876543210");
+    expect(withPhone).toHaveLength(1);
+    const calls = await db().find("calls");
+    expect(new Set(calls.map((c) => c.lead_id)).size).toBe(1);
+    expect(calls.find((c) => c.provider_call_id === "c2")!.summary.previous_contact_history).toContain("1 earlier call");
+  });
+  it("joins a lead that already has the number from an unmasked call", async () => {
+    await send(vaaniEvent({ call_id: "plain", event_id: "plain", from: "+919876543210" }));
+    await send(masked("c3", "9876543210"));
+    const calls = await db().find("calls");
+    expect(new Set(calls.map((c) => c.lead_id)).size).toBe(1);
+  });
+  it("no collected number: the lead simply stays without a phone (never a fabricated one)", async () => {
+    await send(masked("c4", null));
+    expect((await db().find("leads"))[0].phone_e164).toBeNull();
+  });
+  it("the CRM job then has a phone to match contacts on", async () => {
+    Object.assign(process.env, { HUBSPOT_ACCESS_TOKEN: "pat", HUBSPOT_PIPELINE_ID: "default", HUBSPOT_DEAL_STAGE_ID: "s1" });
+    const calls = stubFetch((url) => (url.endsWith("/contacts/search") ? { body: { results: [] } } : url.endsWith("/contacts") ? { body: { id: "C1" } } : { body: { id: "D1" } }));
+    await send(masked("c5", "9876543210"));
+    const create = calls.find((c) => c.url.endsWith("/contacts") && c.init?.method === "POST")!;
+    expect(JSON.parse(String(create.init!.body)).properties.phone).toBe("+919876543210");
+    for (const k of ["HUBSPOT_ACCESS_TOKEN", "HUBSPOT_PIPELINE_ID", "HUBSPOT_DEAL_STAGE_ID"]) delete process.env[k];
+  });
+});
