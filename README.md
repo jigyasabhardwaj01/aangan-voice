@@ -38,8 +38,9 @@ Checks: `npm run lint && npm run typecheck && npm test && npm run build` (all pa
 1. **Supabase**: create a project → SQL editor → run `supabase/migrations/0001_init.sql`. All tables have RLS enabled with no
    policies (service-role only). Copy the project URL and **service-role** key into `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY`.
 2. **Vercel**: import the repo, set every variable from `.env.example` (Production), set `APP_BASE_URL` to the deployed URL.
-   `vercel.json` registers a 5-minute cron on `/api/cron/jobs` (retries Telegram/HubSpot jobs; Vercel authenticates it with
-   `CRON_SECRET`). Sub-daily crons need a Vercel plan that allows them; on Hobby use an external pinger with the bearer secret.
+   `vercel.json` registers a **daily** cron on `/api/cron/jobs` (retries failed Telegram/HubSpot jobs; Vercel authenticates it with
+   `CRON_SECRET`). Hobby plans only allow daily crons. Messages are still sent immediately after each call; the cron only retries failures. For
+   faster retries, upgrade to Pro and use `*/5 * * * *`, or hit the endpoint from an external pinger with the bearer secret.
 3. **Dashboard users**: `DASHBOARD_USERS` (JSON). Roles: `owner` (all, incl. costs and integration health) and `designer`
    (leads, review, bookings, internal pricing guidance).
 4. Set `ALLOW_UNSIGNED_WEBHOOKS=false` (the default).
