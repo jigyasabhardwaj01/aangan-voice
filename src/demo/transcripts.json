@@ -1,0 +1,763 @@
+[
+ {
+  "id": "T01",
+  "day": 2,
+  "header": "10:23am · 4 min 12 sec",
+  "turns": [
+   {
+    "speaker": "human",
+    "text": "Good morning, Aangan Studio."
+   },
+   {
+    "speaker": "caller",
+    "text": "Hi, I’m Priya. I got your number from a friend — Shruti Joshi. She had her flat done by you in Aundh."
+   },
+   {
+    "speaker": "human",
+    "text": "Of course — thank you for calling. What are you looking to do?"
+   },
+   {
+    "speaker": "caller",
+    "text": "We have a 3BHK in Kothrud — Dahanukar Colony. We bought it two years ago and it still looks like the builder flat. We want to redo the whole thing — kitchen, living room, both bedrooms."
+   },
+   {
+    "speaker": "human",
+    "text": "That sounds like a complete redesign. How big is the apartment?"
+   },
+   {
+    "speaker": "caller",
+    "text": "About 1,400 sq ft carpet."
+   },
+   {
+    "speaker": "human",
+    "text": "And your timeline?"
+   },
+   {
+    "speaker": "caller",
+    "text": "We’d like to be done by March. We’re in no rush."
+   },
+   {
+    "speaker": "human",
+    "text": "Perfect. Are you the owner?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Yes — myself and my husband. He knows we’re calling and is happy to go ahead."
+   },
+   {
+    "speaker": "human",
+    "text": "Lovely. Can I take your number and schedule a consultation?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Sure. (gives number)"
+   }
+  ],
+  "notes": []
+ },
+ {
+  "id": "T02",
+  "day": 3,
+  "header": "2:41pm · 5 min 08 sec",
+  "turns": [
+   {
+    "speaker": "human",
+    "text": "Good afternoon, Aangan Studio."
+   },
+   {
+    "speaker": "caller",
+    "text": "Hi. I was looking at your work on Instagram. I have a 2BHK in Wakad — can you tell me roughly how much something like that would cost?"
+   },
+   {
+    "speaker": "human",
+    "text": "Our pricing depends on the materials and the scope — the best way to get a clear picture is a consultation with one of our designers, who can walk you through everything. What are you planning to do?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Full redesign — modular kitchen, wardrobes, living room, both bedrooms. About 950 sq ft."
+   },
+   {
+    "speaker": "human",
+    "text": "Good scope. What’s your timeline?"
+   },
+   {
+    "speaker": "caller",
+    "text": "We move in November — so maybe starting design from October?"
+   },
+   {
+    "speaker": "human",
+    "text": "That works well. Shall I set up a consultation?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Yes, but can you give me a rough ballpark first? Even a range?"
+   },
+   {
+    "speaker": "human",
+    "text": "I genuinely can’t — it varies quite a bit based on materials. Giving you a number without seeing the site would be misleading. The designer will go through all of that with you — the consultation is free and there’s no obligation."
+   },
+   {
+    "speaker": "caller",
+    "text": "Okay, fair enough. Let’s book it."
+   }
+  ],
+  "notes": []
+ },
+ {
+  "id": "T03",
+  "day": 3,
+  "header": "4:15pm · 2 min 40 sec",
+  "turns": [
+   {
+    "speaker": "human",
+    "text": "Good afternoon, Aangan Studio."
+   },
+   {
+    "speaker": "caller",
+    "text": "Hello, I saw your work on LinkedIn. My name is Suresh Patil. I’m in Nashik — would you be able to take on a project here? I want to redo my home office and study."
+   },
+   {
+    "speaker": "human",
+    "text": "Thank you for calling. We only work in Pune and PCMC at the moment — we don’t have the vendor network to take on projects outside Pune."
+   },
+   {
+    "speaker": "caller",
+    "text": "Not even for a smaller project?"
+   },
+   {
+    "speaker": "human",
+    "text": "Even for a smaller project, our execution depends on our contractors being on-site. I’m sorry we can’t help."
+   },
+   {
+    "speaker": "caller",
+    "text": "Alright, understood. Thanks."
+   }
+  ],
+  "notes": []
+ },
+ {
+  "id": "T04",
+  "day": 4,
+  "header": "11:07am · 3 min 22 sec",
+  "turns": [
+   {
+    "speaker": "human",
+    "text": "Good morning, Aangan Studio."
+   },
+   {
+    "speaker": "caller",
+    "text": "Hi — can someone come and give us some ideas for our living room? We’re not planning to do the full thing right now. Just want suggestions on colours, furniture arrangement, what to change."
+   },
+   {
+    "speaker": "human",
+    "text": "We’re a full-service studio — our projects include design and execution together. We don’t do advisory or consultation-only visits. If you’re planning a full redesign with execution, we’d be a great fit."
+   },
+   {
+    "speaker": "caller",
+    "text": "Oh I see. No, we’re just exploring for now. Maybe later."
+   },
+   {
+    "speaker": "human",
+    "text": "Of course — feel free to call back when you’re ready to go ahead with a full project."
+   }
+  ],
+  "notes": []
+ },
+ {
+  "id": "T05",
+  "day": 5,
+  "header": "10:52am · 6 min 44 sec",
+  "turns": [
+   {
+    "speaker": "human",
+    "text": "Good morning, Aangan Studio."
+   },
+   {
+    "speaker": "caller",
+    "text": "Hi, this is Aarti Mehta. Vikram Agarwal asked me to call — he’s a close friend of Nikhil’s."
+   },
+   {
+    "speaker": "human",
+    "text": "Of course, thank you. What are you looking for?"
+   },
+   {
+    "speaker": "caller",
+    "text": "We have a 4BHK in Koregaon Park — about 2,400 sq ft carpet. Complete redesign. New flooring, kitchen, all four bedrooms. We’ve already moved out temporarily."
+   },
+   {
+    "speaker": "human",
+    "text": "That’s a significant project. Do you have a timeline?"
+   },
+   {
+    "speaker": "caller",
+    "text": "We want to move back in by February. About 4 months."
+   },
+   {
+    "speaker": "human",
+    "text": "That should work well. Would you prefer a site visit for the consultation?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Yes please — Vikram said your team does that."
+   },
+   {
+    "speaker": "human",
+    "text": "Absolutely. Can I check your availability for early next week?"
+   }
+  ],
+  "notes": []
+ },
+ {
+  "id": "T06",
+  "day": 5,
+  "header": "3:28pm · 5 min 01 sec",
+  "turns": [
+   {
+    "speaker": "human",
+    "text": "Good afternoon, Aangan Studio."
+   },
+   {
+    "speaker": "caller",
+    "text": "Hi, I’m calling about a commercial project. We’re a startup — just got our first proper office space in Baner. About 800 sq ft. We need workstations for 20 people, a small cabin, a meeting room, and a break area."
+   },
+   {
+    "speaker": "human",
+    "text": "We do commercial fitouts up to about 3,000 sq ft. What’s the state of the space right now?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Bare shell — just columns and floor. Nothing else."
+   },
+   {
+    "speaker": "human",
+    "text": "Full fitout from scratch. And the timeline?"
+   },
+   {
+    "speaker": "caller",
+    "text": "We want to be operational by December. Our team is working from home currently."
+   },
+   {
+    "speaker": "human",
+    "text": "December is doable. Are you the decision-maker for this?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Yes, I’m the founder."
+   },
+   {
+    "speaker": "human",
+    "text": "Perfect. Let’s set up a consultation."
+   }
+  ],
+  "notes": []
+ },
+ {
+  "id": "T07",
+  "day": 8,
+  "header": "9:44am · 3 min 15 sec",
+  "turns": [
+   {
+    "speaker": "human",
+    "text": "Good morning, Aangan Studio."
+   },
+   {
+    "speaker": "caller",
+    "text": "Hello — I want to redo my living room and kitchen before Diwali. Can you take it up?"
+   },
+   {
+    "speaker": "human",
+    "text": "Diwali is about three weeks away. Our design phase alone takes 3–4 weeks, and execution follows. We couldn’t do justice to a project in that time."
+   },
+   {
+    "speaker": "caller",
+    "text": "Even just the living room?"
+   },
+   {
+    "speaker": "human",
+    "text": "Even so — a room redesign with execution takes at least 8–10 weeks from start to finish. We wouldn’t want to rush it."
+   },
+   {
+    "speaker": "caller",
+    "text": "What if I start after Diwali?"
+   },
+   {
+    "speaker": "human",
+    "text": "A November start would work well. Shall I note your details for that?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Let me think and call back."
+   }
+  ],
+  "notes": []
+ },
+ {
+  "id": "T08",
+  "day": 9,
+  "header": "10:47pm · MISSED CALL Missed call. No voicemail. Number associated with Nanded City area (Pune). Call-back attempted following morning at 10:15am — no answer.",
+  "turns": [],
+  "notes": []
+ },
+ {
+  "id": "T09",
+  "day": 10,
+  "header": "11:32am · 5 min 52 sec — ESCALATE",
+  "turns": [
+   {
+    "speaker": "human",
+    "text": "Good morning, Aangan Studio."
+   },
+   {
+    "speaker": "caller",
+    "text": "I need to speak to someone right now. My project has been going for three months and my designer hasn’t replied in five days. This is not acceptable."
+   },
+   {
+    "speaker": "human",
+    "text": "I’m very sorry. Can I take your name and project details?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Sheetal Deshpande. My designer is Aryan. Flat in Viman Nagar — 2BHK. I’ve sent three messages and called twice."
+   },
+   {
+    "speaker": "human",
+    "text": "Sheetal, I’m getting this to our project team right now. Would you prefer to hold for two minutes, or should I have someone senior call you back within 15 minutes?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Callback. And I want it from Nikhil or a senior person — not just whoever picks up."
+   },
+   {
+    "speaker": "human",
+    "text": "Noted. I’ll make sure of that."
+   }
+  ],
+  "notes": [
+   "Existing project complaint. Escalated to studio head immediately."
+  ]
+ },
+ {
+  "id": "T10",
+  "day": 11,
+  "header": "2:04pm · 3 min 40 sec",
+  "turns": [
+   {
+    "speaker": "human",
+    "text": "Good afternoon, Aangan Studio."
+   },
+   {
+    "speaker": "caller",
+    "text": "Hi. I have a 1BHK in Kharadi — about 550 sq ft. I want to do the kitchen and one bedroom. My budget is 1 to 1.5 lakh maximum for everything. Is that possible with you?"
+   },
+   {
+    "speaker": "human",
+    "text": "I appreciate you sharing that. For a kitchen redesign and a bedroom with full execution — materials, furniture, and contractor work — 1 to 1.5 lakh would be significantly below what a project of that scope would cost with us."
+   },
+   {
+    "speaker": "caller",
+    "text": "Even for one bedroom?"
+   },
+   {
+    "speaker": "human",
+    "text": "Even for one room. I wouldn’t want to bring you to a consultation if the numbers don’t align. I’d suggest checking with local contractors who work at that price point."
+   },
+   {
+    "speaker": "caller",
+    "text": "Okay, thank you for being straight."
+   }
+  ],
+  "notes": []
+ },
+ {
+  "id": "T11",
+  "day": 12,
+  "header": "10:18am · 6 min 22 sec",
+  "turns": [
+   {
+    "speaker": "human",
+    "text": "Good morning, Aangan Studio."
+   },
+   {
+    "speaker": "caller",
+    "text": "Hi — I have a question. I’m in a rented apartment. Can you still take up a project?"
+   },
+   {
+    "speaker": "human",
+    "text": "It depends on the scope. What are you looking to do?"
+   },
+   {
+    "speaker": "caller",
+    "text": "It’s a 2BHK in Baner. I’ve been here a year, I have a 3-year lease, and the place is quite bare. I want to properly design the living room, bedroom, and kitchen — no structural changes, just design and fittings."
+   },
+   {
+    "speaker": "human",
+    "text": "That’s fine — we’ve done rented apartments before. For the kitchen we’d do a modular unit that can come out cleanly. The rest is largely flooring, lighting, and furniture — all reversible. Have you checked with your landlord?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Yes — they’re fine with it as long as we don’t break walls."
+   },
+   {
+    "speaker": "human",
+    "text": "Perfect. No wall-breaking from us. Shall we set up a consultation?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Yes please."
+   }
+  ],
+  "notes": []
+ },
+ {
+  "id": "T12",
+  "day": 15,
+  "header": "10:05am · 7 min 30 sec",
+  "turns": [
+   {
+    "speaker": "human",
+    "text": "Good morning, Aangan Studio."
+   },
+   {
+    "speaker": "caller",
+    "text": "I’m calling about a villa project in Kalyani Nagar. My name is Anand Sharma. The property is about 5,500 sq ft — ground plus two floors. Full end-to-end design."
+   },
+   {
+    "speaker": "human",
+    "text": "That’s a significant project. Is this a new property or an existing home?"
+   },
+   {
+    "speaker": "caller",
+    "text": "New construction. Possession was last month. Completely empty."
+   },
+   {
+    "speaker": "human",
+    "text": "And your timeline?"
+   },
+   {
+    "speaker": "caller",
+    "text": "March next year to move in. No rush."
+   },
+   {
+    "speaker": "human",
+    "text": "Good time to start. Would you like our principal designer to come to site for the first consultation?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Yes — this week or next if possible."
+   },
+   {
+    "speaker": "human",
+    "text": "Let me check the calendar and revert by end of day."
+   }
+  ],
+  "notes": []
+ },
+ {
+  "id": "T13",
+  "day": 16,
+  "header": "12:19pm · 6 min 08 sec",
+  "turns": [
+   {
+    "speaker": "human",
+    "text": "Good afternoon, Aangan Studio."
+   },
+   {
+    "speaker": "caller",
+    "text": "Hi — I want to redo my flat in Aundh. 3BHK, about 1,100 sq ft. What might it cost?"
+   },
+   {
+    "speaker": "human",
+    "text": "Our pricing depends on the materials and scope — the designers go through that at the consultation. What are you planning?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Kitchen, wardrobes in both bedrooms, living room. But seriously — can’t you give me even a rough range? I just want to know if we’re in the same ballpark."
+   },
+   {
+    "speaker": "human",
+    "text": "I really can’t give a number that would mean anything without seeing the site and the spec. The difference between a standard and a premium kitchen alone can be 3× the cost. The consultation is free — the designer will give you a proper number by the end of it."
+   },
+   {
+    "speaker": "caller",
+    "text": "Fine. Let’s book then."
+   },
+   {
+    "speaker": "human",
+    "text": "Perfect. What days work for you?"
+   }
+  ],
+  "notes": []
+ },
+ {
+  "id": "T14",
+  "day": 17,
+  "header": "11:41am · 4 min 55 sec",
+  "turns": [
+   {
+    "speaker": "human",
+    "text": "Good morning, Aangan Studio."
+   },
+   {
+    "speaker": "caller",
+    "text": "Hi — I wanted to inquire about an interior project for my parents. They have a 3BHK in Hadapsar — new possession. They want a proper design."
+   },
+   {
+    "speaker": "human",
+    "text": "That sounds good. Will your parents be involved in the decision?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Yes — I’m doing the initial checking. They don’t really use phones much. I’ll tell them about the consultation and they’ll decide."
+   },
+   {
+    "speaker": "human",
+    "text": "Sure — just so we know: your parents would be at the consultation, right? Our designers like to understand the brief directly from the people who’ll live in the space."
+   },
+   {
+    "speaker": "caller",
+    "text": "Yes, they would come. I’m just calling to see if it’s worth pursuing."
+   },
+   {
+    "speaker": "human",
+    "text": "Absolutely. Should I note your details and explain what the consultation involves?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Please. (gives number)"
+   }
+  ],
+  "notes": [
+   "Caller is son. Owners are parents; both will attend consultation. Decision with parents."
+  ]
+ },
+ {
+  "id": "T15",
+  "day": 18,
+  "header": "3:12pm · 5 min 44 sec",
+  "turns": [
+   {
+    "speaker": "human",
+    "text": "Good afternoon, Aangan Studio."
+   },
+   {
+    "speaker": "caller",
+    "text": "Hi, I’m Smita. I’m getting possession of my flat in Undri in about six weeks. 2BHK, 875 sq ft. I want to start the design right away."
+   },
+   {
+    "speaker": "human",
+    "text": "Six weeks is just enough lead time to get the design finalised before execution begins. What are you planning?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Full home — kitchen, wardrobes, living room. The full package."
+   },
+   {
+    "speaker": "human",
+    "text": "Good scope. Are you the owner?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Yes — my husband and I. He said to go ahead and book the consultation."
+   },
+   {
+    "speaker": "human",
+    "text": "Can we see the site in its current state, or do you need to wait for possession?"
+   },
+   {
+    "speaker": "caller",
+    "text": "We can go now — the builder will let us in."
+   },
+   {
+    "speaker": "human",
+    "text": "Even better. Let me get a designer’s availability."
+   }
+  ],
+  "notes": []
+ },
+ {
+  "id": "T16",
+  "day": 19,
+  "header": "10:38am · 5 min 18 sec",
+  "turns": [
+   {
+    "speaker": "human",
+    "text": "Good afternoon, Aangan Studio."
+   },
+   {
+    "speaker": "caller",
+    "text": "Hi — I’d called on Monday about a project. Someone said they’d get back to me. It’s been two days."
+   },
+   {
+    "speaker": "human",
+    "text": "I’m very sorry. Can I get your name?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Girish Nair. I called Monday afternoon. I told someone about my 3BHK in Viman Nagar and gave my number."
+   },
+   {
+    "speaker": "human",
+    "text": "I apologise — I don’t see a note. Can you give me your details again? I’ll book the consultation directly now so it doesn’t slip again."
+   },
+   {
+    "speaker": "caller",
+    "text": "This is not a good sign if you forget before you even start."
+   },
+   {
+    "speaker": "human",
+    "text": "You’re absolutely right, and I’m sorry. Let me make this right now."
+   }
+  ],
+  "notes": [
+   "Enquiry originally received Monday — no follow-up. Re-logged Friday. Caller frustrated. Handle with care."
+  ]
+ },
+ {
+  "id": "T17",
+  "day": 22,
+  "header": "2:14pm then 2:16pm First call — disconnected at 1 min 12 sec",
+  "turns": [
+   {
+    "speaker": "human",
+    "text": "Good afternoon, Aangan Studio."
+   },
+   {
+    "speaker": "caller",
+    "text": "Hi, I wanted to inquire about — (line drops) Second call — 4 min 30 sec"
+   },
+   {
+    "speaker": "human",
+    "text": "Good afternoon, Aangan Studio."
+   },
+   {
+    "speaker": "caller",
+    "text": "Hi — I called just now and got cut off. I’m Ritu Kapoor from Pimple Saudagar. 3BHK, about 1,050 sq ft. We’ve been here two years but never properly did the interiors. We want to start now."
+   },
+   {
+    "speaker": "human",
+    "text": "Thanks for calling back. Pimple Saudagar is in our service area. What are you looking to do?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Kitchen, wardrobes, living room. We moved in with builder furniture and it’s very basic."
+   },
+   {
+    "speaker": "human",
+    "text": "Standard full-home scope. Timeline?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Ideally done by March. Plenty of time."
+   },
+   {
+    "speaker": "human",
+    "text": "Perfect. Let me book a consultation."
+   }
+  ],
+  "notes": []
+ },
+ {
+  "id": "T18",
+  "day": 23,
+  "header": "11:55am · 3 min 02 sec",
+  "turns": [
+   {
+    "speaker": "human",
+    "text": "Good morning, Aangan Studio."
+   },
+   {
+    "speaker": "caller",
+    "text": "Hi — I run a small coworking space. I have a 180 sq ft pod I want to make look really nice. Good lighting, a nice desk, some storage. Can you help?"
+   },
+   {
+    "speaker": "human",
+    "text": "Our commercial projects are typically 500 sq ft or more. A 180 sq ft pod is below our minimum scope."
+   },
+   {
+    "speaker": "caller",
+    "text": "Not even for a smaller fee?"
+   },
+   {
+    "speaker": "human",
+    "text": "It’s not about the fee — it’s that our design and execution team is set up for a certain scale. A 180 sq ft space isn’t one we could do well at the quality we’d want to promise. I’d suggest a local designer who specialises in smaller commercial spaces."
+   },
+   {
+    "speaker": "caller",
+    "text": "Fair enough. Thanks."
+   }
+  ],
+  "notes": []
+ },
+ {
+  "id": "T19",
+  "day": 24,
+  "header": "4:02pm · 2 min 50 sec",
+  "turns": [
+   {
+    "speaker": "human",
+    "text": "Good afternoon, Aangan Studio."
+   },
+   {
+    "speaker": "caller",
+    "text": "Hi — I’m planning to open a restaurant in Koregaon Park. I’ve seen your work and I love it. Would you be able to design the interiors?"
+   },
+   {
+    "speaker": "human",
+    "text": "We appreciate you reaching out. Restaurant and hospitality interiors are outside our current scope — we focus on residential and office spaces. For a restaurant you’d need a studio that specialises in commercial hospitality, which has very different material and compliance requirements."
+   },
+   {
+    "speaker": "caller",
+    "text": "Do you know anyone you could refer?"
+   },
+   {
+    "speaker": "human",
+    "text": "I don’t have a specific referral I could make confidently, but searching for hospitality interior designers in Pune would give you more relevant options."
+   },
+   {
+    "speaker": "caller",
+    "text": "Alright, thanks."
+   }
+  ],
+  "notes": []
+ },
+ {
+  "id": "T20",
+  "day": 25,
+  "header": "9:15am · 4 min 44 sec",
+  "turns": [
+   {
+    "speaker": "human",
+    "text": "Good morning, Aangan Studio."
+   },
+   {
+    "speaker": "caller",
+    "text": "Good morning. I’m Pooja. I have a 2BHK in Magarpatta — Cybercity area. We’ve been wanting to properly design the interiors for a while. Kitchen, both bedrooms, living room. About 900 sq ft."
+   },
+   {
+    "speaker": "human",
+    "text": "Good scope for us. How soon are you looking to start?"
+   },
+   {
+    "speaker": "caller",
+    "text": "We’re flexible — a January start for execution would be ideal."
+   },
+   {
+    "speaker": "human",
+    "text": "That works well. Are you the owner?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Yes — my husband and I. We both want to be at the consultation."
+   },
+   {
+    "speaker": "human",
+    "text": "Excellent. Can I book that now?"
+   },
+   {
+    "speaker": "caller",
+    "text": "Please."
+   }
+  ],
+  "notes": []
+ }
+]

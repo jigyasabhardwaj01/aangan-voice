@@ -1,0 +1,55 @@
+:root {
+  --bg: #f6f4ef; --surface: #ffffff; --surface-2: #faf8f4; --text: #1f1d1a; --muted: #6b665e; --line: #e4dfd5;
+  --accent: #8a4b2a; --accent-ink: #ffffff;
+  --green: #1d7a46; --green-bg: #e3f3e9; --amber: #a2640a; --amber-bg: #fdf0d8; --red: #b3261e; --red-bg: #fbe4e1;
+  --blue: #1f5fa8; --blue-bg: #e3edf9; --grey-bg: #ece9e2; --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161412; --surface: #1f1c19; --surface-2: #26221e; --text: #efebe4; --muted: #a39d92; --line: #37322c;
+    --accent: #d89a73; --accent-ink: #1b1209;
+    --green: #6fd09a; --green-bg: #16301f; --amber: #f0b862; --amber-bg: #35280f; --red: #f19189; --red-bg: #3a1a17;
+    --blue: #8dbcf2; --blue-bg: #14263b; --grey-bg: #2b2823;
+  }
+}
+* { box-sizing: border-box; }
+html { color-scheme: light dark; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1 { font-size: 1.5rem; margin: 0 0 4px; } h2 { font-size: 1.05rem; margin: 0 0 10px; } h3 { font-size: .95rem; margin: 0 0 6px; }
+.shell { display: grid; grid-template-columns: 220px 1fr; min-height: 100vh; }
+.side { background: var(--surface); border-right: 1px solid var(--line); padding: 20px 14px; position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; gap: 4px; }
+.brand { font-weight: 700; letter-spacing: .2px; padding: 0 10px 14px; font-size: 1.05rem; }
+.brand small { display: block; font-weight: 400; color: var(--muted); font-size: .75rem; }
+.side a.nav { padding: 8px 10px; border-radius: 8px; color: var(--text); display: flex; justify-content: space-between; }
+.side a.nav:hover { background: var(--surface-2); text-decoration: none; }
+.side a.nav.on { background: var(--grey-bg); font-weight: 600; }
+.side .who { margin-top: auto; font-size: .8rem; color: var(--muted); padding: 10px; }
+main { min-width: 0; padding: 24px clamp(16px, 3vw, 36px) 60px; max-width: 1200px; width: 100%; }
+.sub { color: var(--muted); margin: 0 0 18px; }
+.grid { display: grid; gap: 12px; } .stats { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; }
+.stat .v { font-size: 1.7rem; font-weight: 700; line-height: 1.15; } .stat .l { color: var(--muted); font-size: .82rem; } .stat .n { color: var(--muted); font-size: .75rem; margin-top: 4px; }
+.row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; } .row.sp { justify-content: space-between; }
+.cols { display: grid; gap: 14px; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); } @media (max-width: 960px) { .cols { grid-template-columns: minmax(0, 1fr); } }
+table { width: 100%; border-collapse: collapse; font-size: .9rem; } th { text-align: left; color: var(--muted); font-weight: 600; font-size: .78rem; text-transform: uppercase; letter-spacing: .4px; }
+th, td { padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; } tr:last-child td { border-bottom: 0; }
+.tw { overflow-x: auto; }
+.badge { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: .75rem; font-weight: 600; white-space: nowrap; }
+.b-green { background: var(--green-bg); color: var(--green); } .b-amber { background: var(--amber-bg); color: var(--amber); } .b-red { background: var(--red-bg); color: var(--red); }
+.b-blue { background: var(--blue-bg); color: var(--blue); } .b-grey { background: var(--grey-bg); color: var(--muted); }
+.banner { border-radius: var(--radius); padding: 10px 14px; margin-bottom: 14px; border: 1px solid var(--line); }
+.banner.warn { background: var(--amber-bg); color: var(--amber); border-color: transparent; } .banner.err { background: var(--red-bg); color: var(--red); border-color: transparent; } .banner.ok { background: var(--green-bg); color: var(--green); border-color: transparent; }
+input, select, textarea, button { font: inherit; color: inherit; } input, select, textarea { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
+textarea { width: 100%; min-height: 70px; }
+.btn { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 8px; padding: 8px 14px; cursor: pointer; font-weight: 600; } .btn.sec { background: var(--grey-bg); color: var(--text); } .btn.danger { background: var(--red); color: #fff; } .btn.small { padding: 4px 10px; font-size: .82rem; }
+.muted { color: var(--muted); } .small { font-size: .82rem; } .mono { font-family: ui-monospace, Menlo, monospace; font-size: .82rem; }
+.chat { display: flex; flex-direction: column; gap: 6px; max-height: 420px; overflow: auto; } .turn { padding: 7px 11px; border-radius: 12px; max-width: 85%; background: var(--surface-2); border: 1px solid var(--line); }
+.turn.caller { align-self: flex-end; background: var(--blue-bg); border-color: transparent; } .turn .who { font-size: .7rem; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; }
+.kv { display: grid; grid-template-columns: 150px 1fr; gap: 4px 12px; font-size: .9rem; } .kv dt { color: var(--muted); } .kv dd { margin: 0; word-break: break-word; }
+.internal { border: 2px dashed var(--amber); background: var(--amber-bg); border-radius: var(--radius); padding: 14px 16px; }
+.bars { display: flex; align-items: flex-end; gap: 4px; height: 120px; } .bars div { flex: 1; background: var(--accent); border-radius: 3px 3px 0 0; min-height: 2px; position: relative; opacity: .85; }
+.bars div i { position: absolute; bottom: 0; left: 0; right: 0; background: var(--blue); opacity: .9; border-radius: 3px 3px 0 0; }
+.login { max-width: 360px; margin: 12vh auto; padding: 0 16px; } .login form { display: grid; gap: 10px; }
+@media (max-width: 760px) { .shell { grid-template-columns: minmax(0, 1fr); } .side { position: static; height: auto; flex-direction: row; flex-wrap: wrap; border-right: 0; border-bottom: 1px solid var(--line); padding: 10px; } .brand { width: 100%; padding-bottom: 4px; } .side .who { margin: 0; width: 100%; } .kv { grid-template-columns: 1fr; } }
