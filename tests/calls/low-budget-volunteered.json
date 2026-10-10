@@ -1,0 +1,21 @@
+{
+  "name": "Volunteers a clearly-too-low budget: declined (never asked)",
+  "phone": "+919910000005",
+  "fields": {
+    "call_kind": "new_enquiry",
+    "engagement": "design_and_execution",
+    "property_use": "residential",
+    "scope_summary": "Kitchen and one bedroom",
+    "city": "Pune",
+    "locality": "Kharadi",
+    "budget_volunteered_max_inr": 150000,
+    "budget_text": "Volunteered a maximum for everything"
+  },
+  "pick_slot": null,
+  "duration_sec": 200,
+  "expect": {
+    "decision": "close_gracefully",
+    "outcome": "RED_NOT_QUALIFIED"
+  },
+  "transcript": "Caller: My budget is 1 to 1.5 lakh maximum for everything. Is that possible?"
+}

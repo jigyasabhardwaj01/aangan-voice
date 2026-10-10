@@ -104,16 +104,16 @@ async function dispatchActions(callId: string, leadId: string | null, effective:
       await enqueue(`tg:handoff:${callId}`, "telegram_handoff", { call_id: callId });
       if (leadId) await enqueue(`hubspot:${leadId}`, "hubspot_sync", { lead_id: leadId });
       if (booking?.status !== "confirmed")
-        await createTask({ dedupeKey: `booking_followup:${leadId}`, kind: "booking_followup", leadId, callId, dueInMinutes: env.callbackSlaMinutes(), notes: booking ? `Booking ${booking.status}: ${booking.failure_reason ?? ""}` : "Qualified but no consultation booked on the call" });
+        await createTask({ dedupeKey: `booking_followup:${leadId}`, kind: "booking_followup", leadId, callId, dueInMinutes: env.callbackSlaMinutes(), assignee: env.pinnedDesigner(), notes: booking ? `Booking ${booking.status}: ${booking.failure_reason ?? ""}` : "Qualified but no consultation booked on the call" });
       break;
     case "AMBER_REVIEW":
       await enqueue(`tg:handoff:${callId}`, "telegram_handoff", { call_id: callId });
-      await createTask({ dedupeKey: `review:${leadId}`, kind: "review", leadId, callId, notes: "Review qualification" });
+      await createTask({ dedupeKey: `review:${leadId}`, kind: "review", leadId, callId, dueInMinutes: env.reviewSlaHours() * 60, assignee: env.pinnedDesigner(), notes: "Review qualification" });
       if (leadId && hubspotAuto) await enqueue(`hubspot:${leadId}`, "hubspot_sync", { lead_id: leadId });
       break;
     case "INCOMPLETE":
       await enqueue(`tg:incomplete:${callId}`, "telegram_alert", { call_id: callId, reason: "incomplete" });
-      await createTask({ dedupeKey: `callback:${leadId}`, kind: "callback", leadId, callId, dueInMinutes: env.callbackSlaMinutes(), notes: "Missed/incomplete call: call back" });
+      await createTask({ dedupeKey: `callback:${leadId}`, kind: "callback", leadId, callId, dueInMinutes: env.callbackSlaMinutes(), assignee: env.pinnedDesigner(), notes: "Missed/incomplete call: call back" });
       break;
     default:
       break; // RED: recorded and visible in the dashboard, nothing forwarded

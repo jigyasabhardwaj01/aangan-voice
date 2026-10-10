@@ -9,6 +9,10 @@ import { closingLine, evaluate, nextQuestion } from "@/domain/qualification/rule
 import { FieldsSchema } from "@/domain/qualification/schema";
 import { latestLiveFields, mergeFields, saveQualification } from "@/domain/qualification/service";
 import { ensureHandlers } from "@/domain/notifications";
+import { normalizePhone } from "@/domain/leads";
+import { activeBookingForLead } from "@/domain/booking";
+import { containsPrice } from "@/domain/pricing-guard";
+import { formatLocal } from "@/lib/time";
 import type { NormalizedEvent } from "@/domain/webhooks/vaani-adapter";
 
 /**
@@ -17,6 +21,7 @@ import type { NormalizedEvent } from "@/domain/webhooks/vaani-adapter";
  */
 
 export const QualifyBody = z.object({ call_id: z.string().min(1).max(200), fields: z.record(z.string(), z.unknown()).default({}) });
+export const LookupBody = z.object({ call_id: z.string().max(200).nullish(), phone: z.string().max(40).nullish() });
 export const AvailabilityBody = z.object({ call_id: z.string().min(1).max(200) });
 export const BookBody = z.object({
   call_id: z.string().min(1).max(200),
@@ -97,5 +102,52 @@ export async function bookTool(body: z.infer<typeof BookBody>) {
   // Only expose status + the sentence to say. "confirmed" is only ever returned after Cal.com confirmed the event.
   const res = { status: r.status, say: r.say };
   assertNoPriceDeep(res, "book tool response");
+  return res;
+}
+
+const REMEMBER = ["scope_summary", "property_use", "commercial_kind", "engagement", "ownership", "city", "locality", "carpet_area_sqft", "site_readiness", "timeline_text", "decision_maker"] as const;
+const todayIst = () => new Intl.DateTimeFormat("en-IN", { timeZone: env.timezone(), weekday: "long", day: "numeric", month: "long", year: "numeric" }).format(new Date());
+
+/**
+ * Called at the START of a call so repeat callers are recognised and not asked the same questions twice.
+ * Privacy: a caller ID can be spoofed, so only non-contact project facts are returned (never phone, email, budget or earlier concerns),
+ * the agent is told to confirm rather than recite, and strings that look like prices are dropped. Also returns today's date,
+ * because the agent has no clock to turn "by March" into deadline_weeks.
+ */
+export async function lookupTool(body: z.infer<typeof LookupBody>) {
+  const db = getDb();
+  const today = todayIst();
+  const phone = normalizePhone(body.phone);
+  const [lead] = phone ? await db.find("leads", { phone_e164: phone }) : [];
+  const fresh = lead && Date.now() - Date.parse(lead.updated_at) < 60 * 86_400_000;
+  if (!lead || !fresh) {
+    const res = { known: false as const, today };
+    assertNoPriceDeep(res, "lookup tool response");
+    return res;
+  }
+  const call = lead.last_call_id ? await db.get("calls", lead.last_call_id) : null;
+  if (lead.effective_outcome === "URGENT_ESCALATION") {
+    const res = {
+      known: true as const, today, existing_client_open_issue: true,
+      instruction: "This number recently reported a problem with an ongoing project. Do not treat it as a new enquiry. Ask gently whether they are calling about that, and if so follow the existing-client complaint steps. Do not discuss details.",
+    };
+    assertNoPriceDeep(res, "lookup tool response");
+    return res;
+  }
+  const already: Record<string, unknown> = {};
+  for (const k of REMEMBER) {
+    const v = call?.extracted?.[k];
+    if (v === null || v === undefined || v === "unknown" || v === "") continue;
+    if (typeof v === "string" && containsPrice(v)) continue;
+    already[k] = v;
+  }
+  const b = await activeBookingForLead(lead.id);
+  const booking = b && b.start_at ? { status: b.status, when: formatLocal(b.start_at, b.timezone ?? undefined), designer: b.designer ?? null } : null;
+  const first = typeof lead.name === "string" ? lead.name.split(" ")[0] : null;
+  const res = {
+    known: true as const, today, first_name: first, booking, already_collected: already,
+    instruction: "Greet them by first name and say welcome back. Do not re-ask anything in already_collected: confirm it briefly and ask only what is missing. Never read out phone numbers or email addresses. If they have a booking, confirm the time.",
+  };
+  assertNoPriceDeep(res, "lookup tool response");
   return res;
 }

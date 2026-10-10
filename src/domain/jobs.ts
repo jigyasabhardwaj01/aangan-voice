@@ -4,7 +4,7 @@ import { env } from "@/lib/env";
 import { ProviderError } from "@/providers/http";
 import { audit } from "./audit";
 
-export type JobKind = "telegram_handoff" | "telegram_alert" | "hubspot_sync" | "summary_retry";
+export type JobKind = "telegram_handoff" | "telegram_alert" | "telegram_overdue" | "hubspot_sync" | "summary_retry";
 export type JobHandler = (payload: Row, job: Row) => Promise<string | void>;
 
 const handlers = new Map<JobKind, JobHandler>();

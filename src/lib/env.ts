@@ -23,6 +23,9 @@ export const env = {
   /** require_approval (default): AMBER leads reach HubSpot only after designer approval. auto: sync AMBER too. */
   hubspotReviewPolicy: () => (get("HUBSPOT_REVIEW_POLICY") === "auto" ? "auto" : "require_approval"),
   allowUnsignedWebhooks: () => get("ALLOW_UNSIGNED_WEBHOOKS") === "true",
+  /** One-designer mode: every task and handoff is assigned to this designer (name). Unset = shared "designer on duty". */
+  pinnedDesigner: () => get("ASSIGN_ALL_TO_DESIGNER"),
+  reviewSlaHours: () => Number(get("REVIEW_SLA_HOURS") ?? 24),
   demoMode: () => get("DEMO_MODE") === "true",
   maxJobAttempts: () => Number(get("MAX_JOB_ATTEMPTS") ?? 6),
 };

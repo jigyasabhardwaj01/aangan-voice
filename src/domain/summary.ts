@@ -120,6 +120,8 @@ export interface BookingInfo {
   provider_booking_uid: string | null;
 }
 
+const designerOr = (fallback: string) => env.pinnedDesigner() ?? fallback;
+
 export function nextAction(outcome: Outcome, booking: BookingInfo | null, name: string | null): { action: string; owner: string } {
   const owner = env.get("ESCALATION_OWNER_NAME") ?? "Nikhil Deshpande (studio head)";
   switch (outcome) {
@@ -127,12 +129,12 @@ export function nextAction(outcome: Outcome, booking: BookingInfo | null, name: 
       return { action: "Existing-client complaint: senior person to call the client back immediately. Do not treat as a sales enquiry.", owner };
     case "GREEN_QUALIFIED":
       if (booking?.status === "confirmed" && booking.start_at)
-        return { action: `Attend consultation on ${formatLocal(booking.start_at, booking.timezone ?? undefined)}.`, owner: booking.designer ?? "Assigned designer" };
-      return { action: `Call ${name ?? "the caller"} to book a consultation (booking was not completed on the call).`, owner: "Designer on duty" };
+        return { action: `Attend consultation on ${formatLocal(booking.start_at, booking.timezone ?? undefined)}.`, owner: booking.designer ?? designerOr("Assigned designer") };
+      return { action: `Call ${name ?? "the caller"} to book a consultation (booking was not completed on the call).`, owner: designerOr("Designer on duty") };
     case "AMBER_REVIEW":
-      return { action: "Review the qualification evidence and approve, keep under review, or decline in the dashboard.", owner: "Designer / studio head" };
+      return { action: "Review the qualification evidence and approve, keep under review, or decline in the dashboard.", owner: env.pinnedDesigner() ?? "Designer / studio head" };
     case "INCOMPLETE":
-      return { action: "Call back to complete the enquiry (call ended or was missed before details were collected).", owner: "Designer on duty" };
+      return { action: "Call back to complete the enquiry (call ended or was missed before details were collected).", owner: designerOr("Designer on duty") };
     case "RED_NOT_QUALIFIED":
       return { action: "No action: caller was closed gracefully. Review in the dashboard if you disagree.", owner: "None" };
   }

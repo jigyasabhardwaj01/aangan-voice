@@ -64,7 +64,7 @@ export async function reviewLead(a: {
     // Approved by a human: now eligible for CRM, and a designer must contact the caller to book (no auto-dial from here).
     await enqueue(`hubspot:${lead.id}`, "hubspot_sync", { lead_id: lead.id });
     await enqueue(`tg:handoff:${call.id}:approved`, "telegram_handoff", { call_id: call.id });
-    await createTask({ dedupeKey: `booking_followup:${lead.id}`, kind: "booking_followup", leadId: lead.id, callId: call.id, dueInMinutes: env.callbackSlaMinutes(), notes: "Approved after review: contact caller to book consultation" });
+    await createTask({ dedupeKey: `booking_followup:${lead.id}`, kind: "booking_followup", leadId: lead.id, callId: call.id, dueInMinutes: env.callbackSlaMinutes(), assignee: env.pinnedDesigner(), notes: "Approved after review: contact caller to book consultation" });
     await runDueJobs().catch(() => undefined);
   }
   return { from: before, to, reviewStatus };

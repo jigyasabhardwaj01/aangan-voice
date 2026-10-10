@@ -1,0 +1,26 @@
+{
+  "name": "Good lead: 3BHK Kothrud, books a consultation",
+  "phone": "+919910000001",
+  "fields": {
+    "call_kind": "new_enquiry",
+    "caller_name": "TEST Priya",
+    "engagement": "design_and_execution",
+    "property_use": "residential",
+    "scope_summary": "Full 3BHK: kitchen, living room, both bedrooms",
+    "city": "Pune",
+    "locality": "Kothrud",
+    "carpet_area_sqft": 1400,
+    "deadline_weeks": 26,
+    "timeline_text": "By March",
+    "decision_maker": "authorised_representative",
+    "preferences_and_concerns": "Modular kitchen, wardrobes, warm wood tones"
+  },
+  "pick_slot": 0,
+  "email": "priya@example.com",
+  "duration_sec": 210,
+  "expect": {
+    "decision": "proceed_to_booking",
+    "outcome": "GREEN_QUALIFIED"
+  },
+  "transcript": "Agent: Good evening, Aangan Studio.\nCaller: I have a 3BHK in Kothrud and want the whole flat designed and built.\nAgent: Lovely. When would you need it complete?\nCaller: By March. My husband is happy for me to go ahead."
+}

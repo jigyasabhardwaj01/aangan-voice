@@ -1,0 +1,19 @@
+{
+  "name": "Nashik: politely declined",
+  "phone": "+919910000003",
+  "fields": {
+    "call_kind": "new_enquiry",
+    "caller_name": "TEST Suresh",
+    "engagement": "design_and_execution",
+    "property_use": "residential",
+    "scope_summary": "Home office and study",
+    "city": "Nashik"
+  },
+  "pick_slot": null,
+  "duration_sec": 120,
+  "expect": {
+    "decision": "close_gracefully",
+    "outcome": "RED_NOT_QUALIFIED"
+  },
+  "transcript": "Caller: I'm in Nashik. Can you take on a project here?"
+}

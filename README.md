@@ -168,6 +168,21 @@ These are in code as named constants and flagged in the UI/evidence — none is 
 | 13 | Integration failures recorded and visible | `integrations.test.ts` |
 | 14 | Tests + production build pass | `npm test`, `npm run build` |
 
+## Ported from the team's other repo (Abhi908-Y/aangan-Degine-Stideo)
+
+* **`lookup_caller` tool** (`POST /api/voice/tools/lookup-caller`): called at the start of every call. Recognises a number seen in the last 60 days and
+  returns today's date (the agent has no clock), the first name, any booking, and `already_collected` project facts so nothing is asked twice.
+  Privacy: caller ID can be spoofed, so it never returns phone, email, budget or earlier concerns, drops any text that looks like a price, and an
+  earlier complaint returns no details. Caveat: Vaani masks numbers in webhooks, so matching only works if the agent passes the real number.
+* **Overdue sweep** (`/api/cron/jobs`): any open follow-up task past its due time nudges the designer chat and the owner chat on Telegram, at most
+  once per 12 hours per task. Review-needed leads now get a 24-hour deadline (`REVIEW_SLA_HOURS`). Call it **hourly** from cron-job.org with
+  `Authorization: Bearer $CRON_SECRET`; `vercel.json` keeps a daily fallback (Vercel Hobby limit).
+* **One-designer mode** (`ASSIGN_ALL_TO_DESIGNER=<name>`): every task and handoff is assigned to that designer; complaints still go to the studio head.
+* **Call simulator**: `npm run simulate -- tests/calls/t01-book.json [baseUrl]` plays lookup → qualify → availability → book → signed webhook against a
+  running server and checks the result. Seven scenarios in `tests/calls/` (they are also unit-tested against the rules).
+* **Not ported:** the auto-decline text message (we have no SMS provider; messaging channels were out of scope), their budget question (conflicts with
+  the brief) and their mock calendar / Neon database.
+
 ## What has and hasn't been verified
 
 * ✅ 142 automated tests, lint, type-check, production build; dashboard exercised in a browser (desktop and mobile width);

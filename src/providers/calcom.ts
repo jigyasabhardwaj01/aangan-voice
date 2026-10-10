@@ -99,7 +99,7 @@ export async function createCalBooking(input: {
       throw new ProviderError("invalid_response", "booking response missing uid/start/end");
     const hosts = Array.isArray(d.hosts) ? (d.hosts as { name?: string }[]) : [];
     await recordIntegration("calcom", true, "create_booking", `uid ${d.uid} status ${String(d.status)}`);
-    return { uid: d.uid, status: String(d.status), start: d.start, end: d.end, designer: hosts[0]?.name ?? env.get("CAL_DEFAULT_DESIGNER") ?? null };
+    return { uid: d.uid, status: String(d.status), start: d.start, end: d.end, designer: hosts[0]?.name ?? env.pinnedDesigner() ?? env.get("CAL_DEFAULT_DESIGNER") ?? null };
   } catch (e) {
     await recordIntegration("calcom", false, "create_booking", e instanceof Error ? e.message : String(e));
     throw e;

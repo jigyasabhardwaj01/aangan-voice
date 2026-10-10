@@ -1,0 +1,23 @@
+{
+  "name": "Asks about price: approved sentence, still qualified",
+  "phone": "+919910000002",
+  "fields": {
+    "call_kind": "new_enquiry",
+    "caller_name": "TEST Rahul",
+    "engagement": "design_and_execution",
+    "property_use": "residential",
+    "scope_summary": "Full 2BHK redesign",
+    "city": "Pune",
+    "locality": "Wakad",
+    "carpet_area_sqft": 950,
+    "deadline_weeks": 12,
+    "asked_pricing": true
+  },
+  "pick_slot": null,
+  "duration_sec": 240,
+  "expect": {
+    "decision": "proceed_to_booking",
+    "outcome": "GREEN_QUALIFIED"
+  },
+  "transcript": "Caller: Roughly how much per square foot?\nAgent: Pricing depends on the site, the materials you choose, and the scope - your designer will walk you through it in detail at the consultation. I can book that for you right now if you'd like.\nCaller: Okay, fair enough."
+}

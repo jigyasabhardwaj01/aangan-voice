@@ -73,6 +73,24 @@ export function ensureHandlers() {
     return sendTelegram(chat, renderTelegram(kind, call, lead, note));
   });
 
+  registerJobHandler("telegram_overdue", async (p) => {
+    const db = getDb();
+    const task = await db.get("followup_tasks", String(p.task_id));
+    if (!task || task.status !== "open") return "skipped:closed";
+    const designerChat = env.get("TELEGRAM_DESIGNER_CHAT_ID");
+    const ownerChat = env.get("TELEGRAM_ESCALATION_CHAT_ID");
+    if (p.target === "owner" && designerChat && ownerChat === designerChat) return "skipped:same-chat";
+    const lead = task.lead_id ? await db.get("leads", task.lead_id) : null;
+    const who = lead?.name ?? lead?.phone_e164 ?? "unknown caller";
+    const text = [
+      `⏰ <b>Overdue ${escapeHtml(String(task.kind).replace("_", " "))}</b>: ${escapeHtml(who)}`,
+      `Assigned: ${escapeHtml(task.assignee ?? "unassigned")} · was due ${escapeHtml(formatLocal(task.due_at))}`,
+      task.notes ? escapeHtml(task.notes) : "",
+      lead ? `<a href="${escapeHtml(dashboardLink(lead.id))}">Open in dashboard</a>` : "",
+    ].filter(Boolean).join("\n");
+    return sendTelegram(p.target === "owner" ? ownerChat : designerChat, text);
+  });
+
   registerJobHandler("hubspot_sync", async (p) => {
     const db = getDb();
     const lead = await db.get("leads", String(p.lead_id));

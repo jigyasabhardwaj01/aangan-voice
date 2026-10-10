@@ -1,0 +1,20 @@
+{
+  "name": "Timeline never mentioned: one question, then human callback",
+  "phone": "+919910000006",
+  "fields": {
+    "call_kind": "new_enquiry",
+    "caller_name": "TEST Divya",
+    "engagement": "design_and_execution",
+    "property_use": "residential",
+    "scope_summary": "Kitchen, wardrobes, living room",
+    "city": "Pune",
+    "locality": "Aundh"
+  },
+  "pick_slot": null,
+  "duration_sec": 180,
+  "expect": {
+    "decision": "ask_question",
+    "outcome": "AMBER_REVIEW"
+  },
+  "transcript": "Caller: I want my 3BHK in Aundh redone: kitchen, wardrobes, living room."
+}
