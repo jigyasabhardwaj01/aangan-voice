@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { ingestVaani } from "@/domain/webhooks/ingest";
+import { sign } from "@/domain/webhooks/signature";
 import { normalizeVaani } from "@/domain/webhooks/vaani-adapter";
 import { db, signed, useCleanEnv, vaaniEvent } from "./helpers";
 import { decideRoute } from "@/domain/routing";
@@ -153,6 +154,54 @@ describe("call state handling", () => {
     const ok = normalizeVaani({ type: "call_ended", callId: "z", transcript: "Agent: hi\nCaller: hello there\nmore words" }, "{}");
     expect(ok.ok && ok.event.transcript).toEqual([{ speaker: "agent", text: "hi" }, { speaker: "caller", text: "hello there more words" }]);
     expect(normalizeVaani({ event_type: "call.ended" }, "{}").ok).toBe(false);
+  });
+});
+
+describe("Vaani Labs envelope and signature (per its OpenAPI spec)", () => {
+  const SECRET2 = "vv_whk_testsecret";
+  useCleanEnv({ VAANI_WEBHOOK_SECRET: SECRET2, ALLOW_UNSIGNED_WEBHOOKS: "false" });
+  const envelope = (type: string, data: Record<string, unknown>, id = "evt_1") => ({ id, type, created: 1760000000, data });
+  const post = (body: unknown) => {
+    const raw = JSON.stringify(body);
+    return ingestVaani(raw, new Headers({ "X-VaaniVoice-Signature": "sha256=" + sign(raw, SECRET2), "X-VaaniVoice-Event": "call.completed" }));
+  };
+
+  it("accepts {id,type,created,data} with the sha256= prefixed X-VaaniVoice-Signature", async () => {
+    const e = vaaniEvent();
+    const { event_id: _a, event_type: _b, ...data } = e as Record<string, unknown>;
+    void _a; void _b;
+    expect((await post(envelope("call.completed", data))).status).toBe(200);
+    const [c] = await db().find("calls");
+    expect(c).toMatchObject({ provider_call_id: "call-1", status: "completed", system_outcome: "GREEN_QUALIFIED" });
+    expect((await db().find("webhook_events"))[0].event_id).toBe("evt_1"); // envelope id is the idempotency key
+    expect((await post(envelope("call.completed", data))).body.duplicate).toBe(true);
+    expect(await db().find("calls")).toHaveLength(1);
+  });
+
+  it("call.failed is a failed call needing follow-up", async () => {
+    expect((await post(envelope("call.failed", { call_id: "f9", from: "+919800000077", started_at: "2026-10-12T23:20:00+05:30" }, "evt_f"))).status).toBe(200);
+    expect((await db().find("calls"))[0]).toMatchObject({ status: "failed", effective_outcome: "INCOMPLETE" });
+  });
+
+  it("acknowledges (2xx) documented events we do not use — non-2xx would get the webhook auto-disabled", async () => {
+    for (const t of ["lead.created", "usage.charged", "webhook.ping", "meeting.ended", "low_balance.warned"])
+      expect((await post(envelope(t, {}, "evt_" + t))).status, t).toBe(200);
+    expect(await db().find("calls")).toHaveLength(0);
+    expect((await db().find("webhook_events")).every((w) => w.status === "processed")).toBe(true);
+  });
+
+  it("still rejects a wrong signature, and truly unknown event types are visible rejects", async () => {
+    const raw = JSON.stringify(envelope("call.completed", {}));
+    expect((await ingestVaani(raw, new Headers({ "X-VaaniVoice-Signature": "sha256=00" }))).status).toBe(401);
+    expect((await post(envelope("something.new", {}, "evt_new"))).status).toBe(422);
+  });
+
+  it("masked caller numbers never create or merge leads", async () => {
+    const mk = (id: string) => envelope("call.completed", { call_id: id, from: "+91******1234", started_at: "2026-10-12T22:10:00+05:30", duration_seconds: 60 }, "evt_" + id);
+    await post(mk("m1")); await post(mk("m2"));
+    const leads = await db().find("leads");
+    expect(leads).toHaveLength(2);
+    expect(leads.every((l) => l.phone_e164 === null)).toBe(true);
   });
 });
 

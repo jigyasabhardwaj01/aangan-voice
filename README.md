@@ -57,10 +57,15 @@ Checks: `npm run lint && npm run typecheck && npm test && npm run build` (all pa
    10:00–19:00 IST, or have the telephony layer call `GET /api/voice/route` (bearer secret) which returns `{route, after_hours}`.
    The call record stores `expected_route` and the actual `handling_mode` (ai / human / none, reported or inferred).
 
-> ⚠️ **Not verified against Vaani's real docs.** No public webhook schema or signature scheme could be found. The adapter
-> (`src/domain/webhooks/vaani-adapter.ts`) and signature check (`src/domain/webhooks/signature.ts`, HMAC-SHA256 of the raw body)
-> encode a documented *assumption* and accept common aliases. Unrecognised payloads are stored as `rejected` and shown on
-> Integration health — they are never silently dropped. **Capture one real test-call payload and adjust only that adapter.**
+> **Vaani Labs webhook format (from its public OpenAPI spec, vaanilabs.in/openapi/v1/vaanivoice.yaml):** envelope `{id: "evt_…", type, created, data}`,
+> events `call.completed`, `call.failed` (plus `lead.created`, `usage.charged`, `meeting.ended`, `webhook.ping`, which the app acknowledges and
+> ignores), signed with `X-VaaniVoice-Signature: sha256=<hex HMAC-SHA256 of the raw body>` using the `vv_whk_…` secret shown at registration
+> (put it in `VAANI_WEBHOOK_SECRET`). Vaani retries up to 8 times and **auto-disables a webhook after 5 consecutive non-2xx responses**, so the app
+> returns 2xx for every documented event. Caller numbers are **masked** in webhooks, so leads cannot be merged by phone number for Vaani calls.
+>
+> ⚠️ **Still unverified:** the spec defines no `data` fields for call events and documents no custom HTTP tools / function calling, so (a) the field
+> names inside `data` are matched by best-guess aliases in `src/domain/webhooks/vaani-adapter.ts`, and (b) whether Vaani Labs can call the `qualify` /
+> `availability` / `book` tools mid-call must be confirmed with Vaani. Capture one real `call.completed` payload and adjust only that adapter.
 
 ### Cal.com
 Create an event type "Design consultation" (hosts = designers, round-robin/collective as you prefer). Set `CAL_API_KEY`,

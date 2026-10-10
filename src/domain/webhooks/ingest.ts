@@ -6,7 +6,7 @@ import { classifyEnd, upsertCall } from "../calls";
 import { finalizeCall } from "../finalize";
 import { ensureHandlers } from "../notifications";
 import { verifyVaaniSignature } from "./signature";
-import { normalizeVaani, type NormalizedEvent } from "./vaani-adapter";
+import { eventIdFor, normalizeVaani, type NormalizedEvent } from "./vaani-adapter";
 
 export interface IngestResult {
   status: number;
@@ -65,6 +65,14 @@ export async function ingestPayload(parsed: unknown, rawBody: string, signed: bo
   ensureHandlers();
   const db = getDb();
   const norm = normalizeVaani(parsed, rawBody);
+  if (!norm.ok && norm.ignore) {
+    // Known, irrelevant event: record it and acknowledge so Vaani never counts a failure (it auto-disables after 5).
+    await db.insert("webhook_events", {
+      id: newId(), provider: "vaani", event_id: eventIdFor(parsed as Record<string, unknown>, rawBody), event_type: "ignored", status: "processed",
+      signature_valid: signed ? true : null, payload: null, error: norm.reason, attempts: 1, received_at: receivedAt.toISOString(), processed_at: nowIso(),
+    });
+    return { status: 200, body: { ignored: true } };
+  }
   if (!norm.ok) {
     await logRejected("rejected:" + createHash("sha256").update(rawBody).digest("hex").slice(0, 24), null, norm.reason, true, parsed);
     return { status: 422, body: { error: norm.reason } };

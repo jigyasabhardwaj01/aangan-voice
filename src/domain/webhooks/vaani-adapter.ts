@@ -98,15 +98,27 @@ export function eventIdFor(raw: Record<string, unknown>, rawBody: string): strin
   return "sha256:" + createHash("sha256").update(rawBody).digest("hex");
 }
 
-export type NormalizeResult = { ok: true; event: NormalizedEvent } | { ok: false; reason: string };
+/**
+ * Events Vaani Labs documents that we deliberately do not act on. They must be acknowledged with 2xx:
+ * Vaani retries non-2xx up to 8 times and AUTO-DISABLES the webhook after 5 consecutive failures.
+ */
+const IGNORED_TYPES = new Set(["lead.created", "usage.charged", "low_balance.warned", "meeting.ended", "webhook.ping"]);
+
+export type NormalizeResult = { ok: true; event: NormalizedEvent } | { ok: false; reason: string; ignore?: boolean };
+
+const isObj = (v: unknown): v is Record<string, unknown> => !!v && typeof v === "object" && !Array.isArray(v);
 
 export function normalizeVaani(raw: unknown, rawBody: string): NormalizeResult {
-  if (!raw || typeof raw !== "object") return { ok: false, reason: "payload is not an object" };
-  const r = raw as Record<string, unknown>;
-  const type = String(r.event_type ?? r.type ?? r.event ?? "").toLowerCase();
+  if (!isObj(raw)) return { ok: false, reason: "payload is not an object" };
+  // Vaani Labs envelope: { id: "evt_…", type, created, data: {…} }. Event-specific fields live in `data`;
+  // flat payloads (no `data`) are still accepted.
+  const data = isObj(raw.data) ? raw.data : null;
+  const r: Record<string, unknown> = data ? { ...data, event_type: raw.type ?? raw.event_type, event_id: raw.id ?? raw.event_id } : raw;
+  const type = String(raw.type ?? raw.event_type ?? raw.event ?? "").toLowerCase();
+  if (IGNORED_TYPES.has(type)) return { ok: false, reason: `ignored event type "${type}"`, ignore: true };
   const kind = KIND_MAP[type];
   if (!kind) return { ok: false, reason: `unrecognised event type "${type}"` };
-  const callId = strOrNull(r.call_id ?? r.callId ?? r.id_call ?? (r.call as Record<string, unknown> | undefined)?.id);
+  const callId = strOrNull(r.call_id ?? r.callId ?? r.id_call ?? (isObj(r.call) ? r.call.id : undefined) ?? (data ? data.id : undefined));
   if (!callId) return { ok: false, reason: "missing call_id" };
 
   const cost = r.cost as { amount?: unknown; currency?: unknown } | undefined;

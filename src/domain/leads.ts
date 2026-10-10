@@ -4,6 +4,8 @@ import { newId, nowIso, type Row } from "@/db/adapter";
 /** Indian-default E.164 normalisation. Returns null when no usable number (e.g. withheld caller ID). */
 export function normalizePhone(raw: string | null | undefined): string | null {
   if (!raw) return null;
+  // Vaani masks caller numbers in webhooks (e.g. +91******1234). A masked number cannot identify a lead.
+  if (/[*xX•#]/.test(raw)) return null;
   const digits = raw.replace(/[^\d+]/g, "");
   if (!digits) return null;
   if (digits.startsWith("+")) return digits.length >= 8 ? digits : null;

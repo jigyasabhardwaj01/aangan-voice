@@ -8,8 +8,9 @@ export function sign(rawBody: string, secret: string): string {
 export type SigCheck = { ok: true; signed: boolean } | { ok: false; reason: string; status: number };
 
 /**
- * ASSUMPTION (verify against Vaani's docs/console): HMAC-SHA256 of the raw body, hex, in a header
- * (default `x-vaani-signature`, optional `sha256=` prefix). Header name is configurable via VAANI_SIGNATURE_HEADER.
+ * Vaani Labs (vaanilabs.in OpenAPI spec): `X-VaaniVoice-Signature: sha256=<lowercase hex HMAC-SHA256 of the raw body>`,
+ * keyed with the `vv_whk_…` secret shown when the webhook is registered. We also accept `x-vaani-signature`, and a custom
+ * name via VAANI_SIGNATURE_HEADER.
  */
 export function verifyVaaniSignature(rawBody: string, headers: Headers): SigCheck {
   const secret = env.get("VAANI_WEBHOOK_SECRET");
@@ -17,8 +18,9 @@ export function verifyVaaniSignature(rawBody: string, headers: Headers): SigChec
     if (env.allowUnsignedWebhooks()) return { ok: true, signed: false };
     return { ok: false, reason: "VAANI_WEBHOOK_SECRET not configured; refusing unsigned webhooks", status: 503 };
   }
-  const header = (env.get("VAANI_SIGNATURE_HEADER") ?? "x-vaani-signature").toLowerCase();
-  const got = (headers.get(header) ?? "").replace(/^sha256=/i, "").trim().toLowerCase();
+  const names = [env.get("VAANI_SIGNATURE_HEADER"), "x-vaanivoice-signature", "x-vaani-signature"].filter((n): n is string => !!n).map((n) => n.toLowerCase());
+  const raw = names.map((n) => headers.get(n)).find((v) => !!v) ?? "";
+  const got = raw.replace(/^sha256=/i, "").trim().toLowerCase();
   const want = sign(rawBody, secret);
   const a = Buffer.from(got);
   const b = Buffer.from(want);
