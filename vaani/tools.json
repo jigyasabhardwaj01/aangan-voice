@@ -1,0 +1,90 @@
+{
+  "_readme": "Four HTTP tools for the Vaani agent. Replace <VOICE_TOOL_SECRET> with the value from .secrets.production.txt (never commit it). Map call_id to Vaani's own call/session id variable.",
+  "base_url": "https://aangan-voice-dusky.vercel.app",
+  "common": {
+    "method": "POST",
+    "content_type": "application/json",
+    "headers": { "Authorization": "Bearer <VOICE_TOOL_SECRET>" }
+  },
+  "tools": [
+    {
+      "name": "lookup_caller",
+      "path": "/api/voice/tools/lookup-caller",
+      "description": "Call at the very start of every call. Tells you today's date and whether this number has called recently. If known, greet by first name and do not re-ask anything in already_collected.",
+      "parameters": {
+        "type": "object",
+        "required": ["call_id"],
+        "properties": {
+          "call_id": { "type": "string", "description": "Vaani's id for this call" },
+          "phone": { "type": "string", "description": "The caller's phone number, if you have it" }
+        }
+      }
+    },
+    {
+      "name": "qualify",
+      "path": "/api/voice/tools/qualify",
+      "description": "Call every time you learn something new about the caller's project. Send only facts the caller really said; omit or null anything unknown. The answer's decision tells you exactly what to do next (ask_question, proceed_to_booking, close_gracefully, human_callback, escalate_urgent). Never ask about budget.",
+      "parameters": {
+        "type": "object",
+        "required": ["call_id", "fields"],
+        "properties": {
+          "call_id": { "type": "string" },
+          "fields": {
+            "type": "object",
+            "properties": {
+              "call_kind": { "type": "string", "enum": ["new_enquiry", "existing_client_complaint", "existing_client_other", "unknown"] },
+              "caller_name": { "type": "string" },
+              "caller_phone": { "type": "string" },
+              "caller_email": { "type": "string" },
+              "engagement": { "type": "string", "enum": ["design_and_execution", "advice_only", "diy_execution", "unknown"] },
+              "property_use": { "type": "string", "enum": ["residential", "commercial", "unknown"] },
+              "commercial_kind": { "type": "string", "enum": ["office", "clinic", "studio", "restaurant", "hotel", "retail", "gym", "other"] },
+              "scope_summary": { "type": "string" },
+              "structural_changes_requested": { "type": "boolean" },
+              "ownership": { "type": "string", "enum": ["owner", "tenant", "unknown"] },
+              "property_details": { "type": "string" },
+              "city": { "type": "string" },
+              "locality": { "type": "string" },
+              "carpet_area_sqft": { "type": "number" },
+              "site_readiness": { "type": "string" },
+              "deadline_weeks": { "type": "number", "description": "Weeks from today until the caller needs it complete" },
+              "timeline_flexible": { "type": "boolean" },
+              "timeline_text": { "type": "string" },
+              "budget_volunteered_max_inr": { "type": "number", "description": "ONLY if the caller volunteered a figure. Never ask." },
+              "budget_text": { "type": "string" },
+              "decision_maker": { "type": "string", "enum": ["caller_is_decider", "authorised_representative", "researching_only", "unknown"] },
+              "frustrated": { "type": "boolean" },
+              "previous_contact_note": { "type": "string" },
+              "existing_client_designer": { "type": "string" },
+              "preferences_and_concerns": { "type": "string" },
+              "asked_pricing": { "type": "boolean" },
+              "evidence": { "type": "object", "description": "Short verbatim caller quotes keyed by criterion number 1-5" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "availability",
+      "path": "/api/voice/tools/availability",
+      "description": "Call ONLY after qualify returns proceed_to_booking. Returns real free consultation slots. Offer only these, reading each label. Never invent times.",
+      "parameters": { "type": "object", "required": ["call_id"], "properties": { "call_id": { "type": "string" } } }
+    },
+    {
+      "name": "book",
+      "path": "/api/voice/tools/book",
+      "description": "Call ONLY after the caller clearly said yes to one exact slot and gave an email address. Say the booking is confirmed only if status is confirmed; otherwise say exactly what the say field says.",
+      "parameters": {
+        "type": "object",
+        "required": ["call_id", "slot_id", "confirmed"],
+        "properties": {
+          "call_id": { "type": "string" },
+          "slot_id": { "type": "string", "description": "The slot_id of the chosen slot from availability" },
+          "confirmed": { "type": "boolean", "description": "true only after the caller explicitly agreed to that exact time" },
+          "email": { "type": "string" },
+          "name": { "type": "string" }
+        }
+      }
+    }
+  ]
+}
